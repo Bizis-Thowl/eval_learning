@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from typing import Optional
 
 # ### Tool 1: Retrieve SQL Data
@@ -27,12 +27,3 @@ class FinalResponse(BaseModel):
     code: Optional[str] = Field(None, description="The python code to execute")
     observed_trends: Optional[str] = Field(None, description="The observed trends in the data")
     natural_language_response: Optional[str] = Field(None, description="The natural language response to the user's question")
-    
-    @field_validator('code')
-    def validate_code(cls, v):
-        if v is not None:
-            try:
-                exec(v)
-            except Exception as e:
-                raise ValueError(f"Invalid code: {e}")
-        return v
